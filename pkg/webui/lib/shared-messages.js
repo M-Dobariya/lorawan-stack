@@ -208,6 +208,7 @@ export default defineMessages({
   frequencyPlan: 'Frequency plan',
   frequencyPlanWarning:
     'Without choosing a frequency plan, packets from the gateway will not be correctly processed',
+  fuotaIo: 'FUOTA.IO',
   furtherResources: 'Further resources',
   gateway: 'Gateway',
   gatewayDescDescription:

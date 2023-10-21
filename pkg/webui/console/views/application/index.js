@@ -73,6 +73,7 @@ import {
   selectMqttProviderDisabled,
   selectNatsProviderDisabled,
 } from '@console/store/selectors/application-server'
+import ApplicationIntegrationsFuotaIo from '../application-integrations-fuota.io'
 
 const Application = () => {
   const { appId } = useParams()
@@ -174,6 +175,11 @@ const ApplicationInner = () => {
                 icon="extension"
               />
             )}
+            <SideNavigation.Item
+              title={sharedMessages.fuotaIo}
+              path="integrations/fuota.io"
+              icon="extension"
+            />
           </SideNavigation.Item>
         )}
         {mayViewOrEditApplicationCollaborators.check(rights) && (
@@ -208,6 +214,7 @@ const ApplicationInner = () => {
           <Route path="integrations/pubsubs/*" Component={ApplicationIntegrationsPubsubs} />
         )}
         <Route path="integrations/lora-cloud" Component={ApplicationIntegrationsLoRaCloud} />
+        <Route path="integrations/fuota.io" Component={ApplicationIntegrationsFuotaIo} />
         <Route path="*" element={<GenericNotFound />} />
       </Routes>
     </>
