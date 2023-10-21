@@ -26,6 +26,7 @@ import Input from '@ttn-lw/components/input'
 import SubmitBar from '@ttn-lw/components/submit-bar'
 import SubmitButton from '@ttn-lw/components/submit-button'
 import Yup from '@ttn-lw/lib/yup'
+import Button from '@ttn-lw/components/button'
 
 const m = defineMessages({
   tokenDescription: 'Fuota access token as configured within FUOTA.IO',
@@ -38,6 +39,8 @@ const FuotaIoForm = () => {
 
   const [apiKey, setApiKey] = useState('')
 
+  const [loading, setLoading] = useState(false)
+
   const formRef = useRef(null)
 
   const validationSchema = Yup.object()
@@ -48,7 +51,13 @@ const FuotaIoForm = () => {
     })
     .noUnknown()
 
-  const handleSubmit = values => setApiKey(values.data.apiKey)
+  const handleSubmit = values => {
+    setLoading(true)
+    setTimeout(() => {
+      setApiKey(values.data.apiKey)
+      setLoading(false)
+    }, 1000)
+  }
 
   const handleDelete = () => {
     setApiKey('')
@@ -74,7 +83,9 @@ const FuotaIoForm = () => {
         required
       />
       <SubmitBar>
-        <Form.Submit component={SubmitButton} message={sharedMessages.tokenSet} />
+        <Button primary type="submit" disabled={apiKey} busy={loading}>
+          Set Token
+        </Button>
         {apiKey && (
           <ModalButton
             type="button"
