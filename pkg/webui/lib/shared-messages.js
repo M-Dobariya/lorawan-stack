@@ -235,6 +235,7 @@ export default defineMessages({
   generalSettings: 'General settings',
   getSupport: 'Get support',
   gsServerAddressDescription: 'The address of the Gateway Server to connect to',
+  generateWebHookToken: 'Generate webhook token',
   hardware: 'Hardware',
   hardwareVersion: 'Hardware version',
   homeNetID: 'Home NetID',
