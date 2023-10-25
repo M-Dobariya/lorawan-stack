@@ -104,6 +104,10 @@ export const mayViewMqttConnectionInfo = {
   rightsSelector: selectApplicationRights,
   check: rights => mayViewApplicationInfo.check(rights) && asEnabled,
 }
+export const mayViewFuotaIoInfo = {
+  rightsSelector: selectApplicationRights,
+  check: rights => mayViewApplicationInfo.check(rights) && asEnabled,
+}
 export const mayViewOrEditApplicationCollaborators = {
   rightsSelector: selectApplicationRights,
   check: rights => rights.includes('RIGHT_APPLICATION_SETTINGS_COLLABORATORS'),
