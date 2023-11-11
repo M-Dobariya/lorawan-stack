@@ -26,7 +26,7 @@ import (
 
 var (
 	defaultInsecure                  = false
-	defaultClusterHost               = "localhost"
+	defaultClusterHost               = "192.168.2.102"
 	defaultGRPCAddress, _            = discover.DefaultPort(defaultClusterHost, discover.DefaultPorts[!defaultInsecure])
 	defaultOAuthServerBaseAddress, _ = discover.DefaultURL(defaultClusterHost, discover.DefaultHTTPPorts[!defaultInsecure], !defaultInsecure)
 	defaultOAuthServerAddress        = defaultOAuthServerBaseAddress + "/oauth"

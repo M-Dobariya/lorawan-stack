@@ -134,11 +134,15 @@ const LoRaCloudGLSForm = () => {
     async values => {
       try {
         const castedValues = validationSchema.cast(values)
-        await dispatch(
-          promisifiedSetAppPkgDefaultAssoc(appId, LORA_CLOUD_GLS.DEFAULT_PORT, {
+        const temp = [
+          appId, LORA_CLOUD_GLS.DEFAULT_PORT, {
             package_name: LORA_CLOUD_GLS.DEFAULT_PACKAGE_NAME,
             ...castedValues,
-          }),
+          }
+        ]
+        console.log('temp: ', temp);
+        await dispatch(
+          promisifiedSetAppPkgDefaultAssoc(...temp),
         )
         toast({
           title: 'LoRa Cloud',

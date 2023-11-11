@@ -5,6 +5,11 @@
   "main": "index.js",
   "repository": "https://github.com/TheThingsNetwork/lorawan-stack.git",
   "license": "Apache-2.0",
+  "scripts": {
+    "clear:build": "cd ./sdk/js && npm run build && cd .. && rm -rf ./node_modules && yarn install && tools/bin/mage js:build",
+    "clear:run": "npm run clear:build && go run ./cmd/ttn-lw-stack start", 
+    "dev": "go run ./cmd/ttn-lw-stack start"
+  },
   "devDependencies": {
     "@babel/cli": "^7.22.9",
     "@babel/core": "^7.22.5",

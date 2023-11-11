@@ -23,7 +23,7 @@ const tts = new TTS({
     key: token,
   },
   connectionType: 'http',
-  baseURL: 'http://localhost:1885/api/v3',
+  baseURL: 'http://192.168.2.102:1885/api/v3',
   defaultUserId: 'testuser',
 })
 

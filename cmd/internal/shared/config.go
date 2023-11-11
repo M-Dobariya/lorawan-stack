@@ -189,7 +189,7 @@ var DefaultServiceBase = config.ServiceBase{
 }
 
 // DefaultPublicHost is the default public host where The Things Stack is served.
-var DefaultPublicHost = "localhost"
+var DefaultPublicHost = "192.168.2.102"
 
 // DefaultPublicURL is the default public URL where The Things Stack is served.
 var DefaultPublicURL = "http://" + DefaultPublicHost + ":1885"

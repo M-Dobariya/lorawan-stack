@@ -292,11 +292,11 @@ func (Dev) InitStack() error {
 		"--name", "Console",
 		"--owner", "admin",
 		"--secret", "console",
-		"--redirect-uri", "https://localhost:8885/console/oauth/callback",
-		"--redirect-uri", "http://localhost:1885/console/oauth/callback",
+		"--redirect-uri", "https://192.168.2.102:8885/console/oauth/callback",
+		"--redirect-uri", "http://192.168.2.102:1885/console/oauth/callback",
 		"--redirect-uri", "/console/oauth/callback",
-		"--logout-redirect-uri", "https://localhost:8885/console",
-		"--logout-redirect-uri", "http://localhost:1885/console",
+		"--logout-redirect-uri", "https://192.168.2.102:8885/console",
+		"--logout-redirect-uri", "http://192.168.2.102:1885/console",
 		"--logout-redirect-uri", "/console",
 	); err != nil {
 		return err

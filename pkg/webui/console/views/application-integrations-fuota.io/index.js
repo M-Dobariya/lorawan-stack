@@ -35,6 +35,8 @@ import { defineMessages } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import style from './application-integrations-fuota.io.styl'
+import RequireRequest from '@ttn-lw/lib/components/require-request'
+import { getAppPkgAssoc } from '@console/store/actions/application-packages'
 
 const m = defineMessages({
   goToApiKeys: 'Go to API keys',
@@ -76,6 +78,8 @@ const ApplicationIntegrationsFuotaIo = () => {
 
   const connectionData = [{ header: m.connectionCredentials, items: [] }]
 
+  const selector = ['data']
+
   if (password) {
     connectionData[0].items.push({
       label: m.tokenDescription,
@@ -103,36 +107,43 @@ const ApplicationIntegrationsFuotaIo = () => {
 
   return (
     <Require featureCheck={mayViewFuotaIoInfo} otherwise={{ redirect: `/applications/${appId}` }}>
-      <ErrorView errorRender={SubViewError}>
-        <Container>
-          <PageTitle title={sharedMessages.fuotaIo} />
-          <Row>
-            <Col lg={8} md={12}>
-              <img className={style.logo} src={FuotaIOImage} alt="fuota.io" />
-              <Message content={m.fuotaIoInfoText} className="mt-0" />
-              <div>
-                <Message
-                  component="h4"
-                  content={sharedMessages.furtherResources}
-                  className="mb-cs-xxs"
-                />
-                <Link.Anchor href="https://fuota.io/" external secondary>
-                  <Message content={m.officialFuotaIoWebsite} />
-                </Link.Anchor>
-              </div>
-              <Collapse
-                title={'Generate FUOTA.IO Webhook API key'}
-                description={m.generateFuotaIoDescription}
-              >
-                <DataSheet data={connectionData} />
-              </Collapse>
-              <Collapse title={'Set FUOTA.IO API key'} description={m.setFuotaIoDescription}>
-                <FuotaIoForm />
-              </Collapse>
-            </Col>
-          </Row>
-        </Container>
-      </ErrorView>
+      <RequireRequest
+        requestAction={[
+          getAppPkgAssoc(appId, 207, 1, selector),
+          // getAppPkgAssoc(appId, LORA_CLOUD_GLS.DEFAULT_PORT, selector),
+        ]}
+      >
+        <ErrorView errorRender={SubViewError}>
+          <Container>
+            <PageTitle title={sharedMessages.fuotaIo} />
+            <Row>
+              <Col lg={8} md={12}>
+                <img className={style.logo} src={FuotaIOImage} alt="fuota.io" />
+                <Message content={m.fuotaIoInfoText} className="mt-0" />
+                <div>
+                  <Message
+                    component="h4"
+                    content={sharedMessages.furtherResources}
+                    className="mb-cs-xxs"
+                  />
+                  <Link.Anchor href="https://fuota.io/" external secondary>
+                    <Message content={m.officialFuotaIoWebsite} />
+                  </Link.Anchor>
+                </div>
+                <Collapse
+                  title={'Generate FUOTA.IO Webhook API key'}
+                  description={m.generateFuotaIoDescription}
+                >
+                  <DataSheet data={connectionData} />
+                </Collapse>
+                <Collapse title={'Set FUOTA.IO API key'} description={m.setFuotaIoDescription}>
+                  <FuotaIoForm />
+                </Collapse>
+              </Col>
+            </Row>
+          </Container>
+        </ErrorView>
+      </RequireRequest>
     </Require>
   )
 }

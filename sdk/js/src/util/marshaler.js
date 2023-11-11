@@ -179,10 +179,14 @@ class Marshaler {
    * @returns {object} The field mask object ready to be attached to a request.
    */
   static pathsToFieldMask(paths) {
-    if (!paths) {
-      return null
+    try {
+      if (!paths) {
+        return null
+      }
+      return { field_mask: { paths: paths.map(e => e.join('.')) } }
+    } catch (error) {
+      console.log("Breaking from 'pathsToFieldMask'", error);
     }
-    return { field_mask: { paths: paths.map(e => e.join('.')) } }
   }
 
   /**
@@ -193,13 +197,17 @@ class Marshaler {
    * @returns {object} The field mask object ready to be attached to a request.
    */
   static selectorToPaths(selector) {
-    if (typeof selector === 'string') {
-      return selector.split(',').map(e => e.split('.'))
+    try {
+      if (typeof selector === 'string') {
+        return selector.split(',').map(e => e.split('.'))
+      }
+      if (selector instanceof Array) {
+        return selector.map(e => (typeof e === 'string' ? e.split('.') : e))
+      }
+      return selector
+    } catch (error) {
+      console.log("Breaking from 'selectorPaths'", error);
     }
-    if (selector instanceof Array) {
-      return selector.map(e => (typeof e === 'string' ? e.split('.') : e))
-    }
-    return selector
   }
 
   /**

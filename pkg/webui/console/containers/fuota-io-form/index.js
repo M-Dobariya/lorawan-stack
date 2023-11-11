@@ -18,7 +18,7 @@ import sharedMessages from '@ttn-lw/lib/shared-messages'
 import attachPromise from '@ttn-lw/lib/store/actions/attach-promise'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { defineMessages } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import ModalButton from '@ttn-lw/components/button/modal-button'
 import Form from '@ttn-lw/components/form'
@@ -27,6 +27,10 @@ import SubmitBar from '@ttn-lw/components/submit-bar'
 import SubmitButton from '@ttn-lw/components/submit-button'
 import Yup from '@ttn-lw/lib/yup'
 import Button from '@ttn-lw/components/button'
+import FUOTA_IO_FORM from '@console/constants/fuota-io-form'
+import { setAppPkgAssoc } from '@console/store/actions/application-packages'
+import { selectSelectedApplicationId } from '@console/store/selectors/applications'
+import toast from '@ttn-lw/components/toast'
 
 const m = defineMessages({
   tokenDescription: 'Fuota access token as configured within FUOTA.IO',
@@ -34,7 +38,12 @@ const m = defineMessages({
   connectionCredentials: 'Fuota API Key',
 })
 
+const promisifiedSetAppPkgAssoc = attachPromise(setAppPkgAssoc)
+
 const FuotaIoForm = () => {
+
+  const appId = useSelector(selectSelectedApplicationId)
+
   const [error, setError] = useState('')
 
   const [apiKey, setApiKey] = useState('')
@@ -43,21 +52,46 @@ const FuotaIoForm = () => {
 
   const formRef = useRef(null)
 
+  const dispatch = useDispatch()
+
   const validationSchema = Yup.object()
     .shape({
       data: Yup.object().shape({
         apiKey: Yup.string().default('').required(sharedMessages.validateRequired),
+        serverUrl: Yup.string().default(FUOTA_IO_FORM.DEFAULT_SERVER_URL).required()
       }),
     })
     .noUnknown()
 
-  const handleSubmit = values => {
-    setLoading(true)
-    setTimeout(() => {
-      setApiKey(values.data.apiKey)
-      setLoading(false)
-    }, 1000)
-  }
+  // const handleSubmit = values => {
+  //   setLoading(true)
+  //   setTimeout(() => {
+  //     setApiKey(values.data.apiKey)
+  //     setLoading(false)
+  //   }, 1000)
+  // }
+
+  const handleSubmit = useCallback(
+    async values => {
+      try {
+        const castedValues = validationSchema.cast(values)
+        await dispatch(
+          promisifiedSetAppPkgAssoc(appId, FUOTA_IO_FORM.DEFAULT_PORT, 'a1b2c', {
+            package_name: FUOTA_IO_FORM.DEFAULT_PACKAGE_NAME,
+            ...castedValues,
+          }),
+        )
+        toast({
+          title: 'Fauota.io integrated',
+          message: sharedMessages.tokenUpdated,
+          type: toast.types.SUCCESS,
+        })
+      } catch (error) {
+        setError(error)
+      }
+    },
+    [appId, dispatch],
+  )
 
   const handleDelete = () => {
     setApiKey('')

@@ -24,6 +24,7 @@ export default fetchToken => {
   const retrieveToken = async () => {
     try {
       const response = await fetchToken()
+      console.log('response: ', response);
       const token = response.data
       if (!isPlainObject(token) || !('access_token' in token)) {
         throw new TokenError('Received invalid token')
@@ -41,6 +42,7 @@ export default fetchToken => {
 
   return () => {
     const token = cache.get('accessToken')
+    console.log('token: ', token);
 
     if (!token || Date.parse(token.expiry) < Date.now()) {
       // If we don't have a token stored or it's expired, we want to retrieve it.

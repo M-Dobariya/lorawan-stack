@@ -21,6 +21,8 @@ import {
   GET_APP_PKG_DEFAULT_ASSOC,
   SET_APP_PKG_DEFAULT_ASSOC,
   DELETE_APP_PKG_DEFAULT_ASSOC,
+  GET_APP_PKG_ASSOC,
+  SET_APP_PKG_ASSOC,
 } from '@console/store/actions/application-packages'
 
 const getApplicationPackagesDefaultAssociationLogic = createRequestLogic({
@@ -46,6 +48,7 @@ const getApplicationPackagesDefaultAssociationLogic = createRequestLogic({
 const setApplicationPackagesDefaultAssociationLogic = createRequestLogic({
   type: SET_APP_PKG_DEFAULT_ASSOC,
   process: ({ action }) => {
+    console.log('action: ', action);
     const { appId, fPort, data } = action.payload
     const { selector } = action.meta
 
@@ -63,8 +66,41 @@ const deleteApplicationPackagesDefaultAssociationLogic = createRequestLogic({
   },
 })
 
+const getApplicationPackagesAssociationLogic = createRequestLogic({
+  type: GET_APP_PKG_ASSOC,
+  process: async ({ action }) => {
+    const { appId, fPort, deviceId } = action.payload
+    const { selector } = action.meta
+    try {
+      const result = await tts.Applications.Packages.getAssociation(appId, fPort, deviceId, selector)
+
+      return result
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        // 404s are expected when the default package does not exist. This should not
+        // result in a failure action.
+        return { ids: { f_port: fPort } }
+      }
+      throw error
+    }
+  },
+})
+
+const setApplicationPackagesAssociationLogic = createRequestLogic({
+  type: SET_APP_PKG_ASSOC,
+  process: ({ action }) => {
+    console.log('action: ', action);
+    const { appId, fPort, deviceId, data } = action.payload
+    const { selector } = action.meta
+
+    return tts.Applications.Packages.setAssociation(appId, deviceId, fPort, data, selector)
+  },
+})
+
 export default [
   getApplicationPackagesDefaultAssociationLogic,
   setApplicationPackagesDefaultAssociationLogic,
   deleteApplicationPackagesDefaultAssociationLogic,
+  getApplicationPackagesAssociationLogic,
+  setApplicationPackagesAssociationLogic,
 ]

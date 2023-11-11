@@ -66,3 +66,40 @@ export const [
   appId,
   fPort,
 }))
+
+export const GET_APP_PKG_ASSOC_BASE = 'GET_APPLICATION_PACKAGE_ASSOCIATION'
+export const [
+  {
+    request: GET_APP_PKG_ASSOC,
+    success: GET_APP_PKG_ASSOC_SUCCESS,
+    failure: GET_APP_PKG_ASSOC_FAILURE,
+  },
+  {
+    request: getAppPkgAssoc,
+    success: getAppPkgAssocSuccess,
+    failure: getAppPkgAssocFailure,
+  },
+] = createRequestActions(
+  GET_APP_PKG_ASSOC_BASE,
+  (appId, fPort, deviceId) => ({ appId, fPort, deviceId }),
+  (appId, fPort, deviceId, selector) => ({ selector }),
+)
+
+export const SET_APP_PKG_ASSOC_BASE = 'SET_APPLICATION_PACKAGE_ASSOCIATION'
+export const [
+  {
+    request: SET_APP_PKG_ASSOC,
+    success: SET_APP_PKG_ASSOC_SUCCESS,
+    failure: SET_APP_PKG_ASSOC_FAILURE,
+  },
+  {
+    request: setAppPkgAssoc,
+    success: setAppPkgAssocSuccess,
+    failure: setAppPkgAssocFailure,
+  },
+] = createRequestActions(
+  SET_APP_PKG_ASSOC_BASE,
+  (appId, fPort, data) => ({ appId, fPort, data }),
+  (appId, fPort, data, selector) => ({ selector }),
+)
+

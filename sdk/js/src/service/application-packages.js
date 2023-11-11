@@ -71,6 +71,69 @@ class ApplicationPackages {
 
     return Marshaler.payloadSingleResponse(result)
   }
+
+  async getAssociation(appId, fPort, deviceId, selector) {
+    console.log('appId: ', appId, fPort, deviceId, selector);
+    let result;
+    console.log("GOT INTO GETASSOCIATION from sdk.......");
+    console.log('_api: ', this._api);
+    try {
+
+      result = await this._api.GetAssociation(
+        {
+          routeParams: {
+            'ids.end_device_ids.application_ids.application_id': appId,
+            'ids.end_device_ids.device_id': deviceId,
+            'ids.f_port': fPort,
+          },
+        },
+
+        Marshaler.selectorToFieldMask(selector),
+      )
+      console.log('result: ', result);
+    } catch (error) {
+      console.log("Error in Marshaler.payloadSingleResponse(result).......", error);
+    }
+
+    console.log("Marshaler.payloadSingleResponse(result).......", Marshaler.payloadSingleResponse(result));
+
+    console.log("1111");
+
+    return Marshaler.payloadSingleResponse(result)
+      .ApplicationPackages
+  }
+
+  async setAssociation(
+    appId,
+    deviceId,
+    fPort,
+    patch,
+    mask = Marshaler.fieldMaskFromPatch(
+      patch,
+      this._api.SetAssociationAllowedFieldMaskPaths,
+    ),
+  ) {
+    try {
+      const result = await this._api.SetAssociation(
+        {
+          routeParams: {
+            'association.ids.end_device_ids.application_ids.application_id': appId,
+            'association.ids.end_device_ids.device_id': deviceId,
+            'association.ids.f_port': fPort,
+          },
+        },
+        {
+          default: patch,
+          field_mask: Marshaler.fieldMask(mask),
+        },
+      )
+      console.log('result from SetAssociation: ', result);
+
+      return Marshaler.payloadSingleResponse(result)
+    } catch (error) {
+      console.log("error in setAssociation: ", error);
+    }
+  }
 }
 
 export default ApplicationPackages

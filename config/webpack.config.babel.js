@@ -172,7 +172,7 @@ export default {
     proxy: [
       {
         context: ['/console', '/account', '/oauth', '/api', '/assets/blob'],
-        target: WEBPACK_DEV_SERVER_USE_TLS ? 'https://localhost:8885' : 'http://localhost:1885',
+        target: WEBPACK_DEV_SERVER_USE_TLS ? 'https://192.168.2.102:8885' : 'http://192.168.2.102:1885',
         changeOrigin: true,
         secure: false,
       },

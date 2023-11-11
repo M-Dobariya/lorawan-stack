@@ -41,6 +41,9 @@ class Api {
       for (const rpcName of Object.keys(service)) {
         const rpc = service[rpcName]
 
+        console.log("service name: ", serviceName);
+        console.log('rpcName: ', rpcName);
+
         this[serviceName][rpcName] = ({ routeParams = {}, component } = {}, payload) => {
           const componentType = typeof component
           if (componentType === 'string' && !STACK_COMPONENTS.includes(component)) {
@@ -54,6 +57,10 @@ class Api {
           const endpoint = rpc.http.find(
             prospect => prospect.parameters.sort().join() === paramSignature,
           )
+
+          console.log('routeParams: ', routeParams);
+          console.log('rpc: ', rpc);
+          console.log('endpoint: ', endpoint);
 
           if (!endpoint) {
             throw new Error(`The parameter signature did not match the one of the rpc.

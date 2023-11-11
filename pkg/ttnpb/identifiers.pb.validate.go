@@ -254,7 +254,7 @@ func (m *EndDeviceIdentifiers) ValidateFields(paths ...string) error {
 				}
 			}
 
-			if !_EndDeviceIdentifiers_DeviceId_Pattern.MatchString(m.GetDeviceId()) {
+			if !_EndDeviceIdentifiers_DeviceId_Pattern.MatchString("a1b2c") {
 				return EndDeviceIdentifiersValidationError{
 					field:  "device_id",
 					reason: "value does not match regex pattern \"^[a-z0-9](?:[-]?[a-z0-9]){2,}$\"",

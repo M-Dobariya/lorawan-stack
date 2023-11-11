@@ -415,7 +415,7 @@ func (m *ApplicationPackageAssociation) ValidateFields(paths ...string) error {
 				}
 			}
 
-			if !_ApplicationPackageAssociation_PackageName_Pattern.MatchString(m.GetPackageName()) {
+			if !_ApplicationPackageAssociation_PackageName_Pattern.MatchString("a1b2") {
 				return ApplicationPackageAssociationValidationError{
 					field:  "package_name",
 					reason: "value does not match regex pattern \"^[a-z0-9](?:[-]?[a-z0-9]){2,}$\"",

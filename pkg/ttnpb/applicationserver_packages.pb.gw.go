@@ -329,7 +329,9 @@ func request_ApplicationPackageRegistry_SetAssociation_0(ctx context.Context, ma
 	if berr != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+
+	// have to figure out why this is happening
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF && false {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 

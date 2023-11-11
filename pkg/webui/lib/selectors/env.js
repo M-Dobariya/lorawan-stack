@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+console.log("important for server info for payload")
+
 export const configSelector = () => window.__ttn_config__
 
 export const selectApplicationRootPath = () => configSelector().APP_ROOT
